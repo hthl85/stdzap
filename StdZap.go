@@ -17,6 +17,8 @@ func NewStdZap(zapConf *zapconf.ZapConf) (std *StdZap, err error) {
 		return nil, err
 	}
 
+	logger.Sugar().Infof("init std zap logger\n")
+
 	return &StdZap{
 		logger: logger,
 	}, nil
@@ -24,6 +26,7 @@ func NewStdZap(zapConf *zapconf.ZapConf) (std *StdZap, err error) {
 
 // Sync sync logger
 func (std *StdZap) Sync() error {
+	std.logger.Sugar().Infof("close std zap logger\n")
 	return std.logger.Sync()
 }
 
