@@ -3,48 +3,41 @@ package stdzap
 import (
 	zapconf "github.com/hthl85/conf-zap"
 	"go.uber.org/zap"
-	"log"
 )
 
 // StdZap struct
 type StdZap struct {
-	sugar *zap.SugaredLogger
+	logger *zap.Logger
 }
 
-// NewStdZap creates new stdzap
+// NewStdZap creates new std zap
 func NewStdZap(zapConf *zapconf.ZapConf) (std *StdZap, err error) {
 	logger, err := zap.NewProduction()
 	if err != nil {
 		return nil, err
 	}
 
-	if logger != nil {
-		defer func() {
-			log.Print("[DEBUG] stdzap defer sync is executing")
-			if deferErr := logger.Sync(); deferErr != nil {
-				err = deferErr
-			}
-		}()
-	}
-
-	sugar := logger.Sugar()
-
 	return &StdZap{
-		sugar: sugar,
+		logger: logger,
 	}, nil
+}
+
+// Sync sync logger
+func (std *StdZap) Sync() error {
+	return std.logger.Sync()
 }
 
 // Infof logs info
 func (std *StdZap) Infof(msg string, args ...interface{}) {
-	std.sugar.Infof(msg, args)
+	std.logger.Sugar().Infof(msg, args)
 }
 
 // Error logs error
 func (std *StdZap) Error(err error) {
-	std.sugar.Error(err)
+	std.logger.Sugar().Error(err)
 }
 
 // Errorf logs error info
 func (std *StdZap) Errorf(msg string, args ...interface{}) {
-	std.sugar.Errorf(msg, args)
+	std.logger.Sugar().Errorf(msg, args)
 }
