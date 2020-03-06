@@ -3,6 +3,7 @@ package stdzap
 import (
 	zapconf "github.com/hthl85/conf-zap"
 	"go.uber.org/zap"
+	"log"
 )
 
 // StdZap struct
@@ -19,6 +20,7 @@ func NewStdZap(zapConf *zapconf.ZapConf) (std *StdZap, err error) {
 
 	if logger != nil {
 		defer func() {
+			log.Print("[DEBUG] stdzap defer sync is executing")
 			if deferErr := logger.Sync(); deferErr != nil {
 				err = deferErr
 			}
