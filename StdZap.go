@@ -1,7 +1,7 @@
 package stdzap
 
 import (
-	zapconf "github.com/hthl85/conf-zap"
+	"github.com/hthl85/zapconf"
 	"go.uber.org/zap"
 )
 
